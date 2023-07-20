@@ -1,0 +1,228 @@
+{
+    "amadeus.com:amadeus-flight-offers-search": {
+        "name": "Flight Offers Search",
+        "type": "Flights",
+        "url": "https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search",
+        "swaggerUrl": "https://api.apis.guru/v2/specs/amadeus.com/2.2.0/openapi.json",
+        "description": "The Flight Offers Search API searches over 500 airlines to find the cheapest flights for a given itinerary. The API lets you can search flights between two cities, perform multi-city searches for longer itineraries and access one-way combinable fares to offer the cheapest options possible. For each itinerary, the API provides a list of flight offers with prices, fare details, airline names, baggage allowances and departure terminals.",
+        "base_utt": "What are the cheapest flights from Madrid to Paris on June 1st?",
+        "paths": {
+            "/shopping/flight-offers": {
+                "parameters": [
+                    {
+                        "name": "originLocationCode",
+                        "description": "city/airport IATA code from which the traveler will depart, e.g. BOS for Boston",
+                        "example": "SYD",
+                        "required": true,
+                        "type": "string",
+                        "values": "[BOS, LAX, JFK, ORD, ATL, SFO, SEA, MIA, DEN, DFW]",
+                        "mentions": "[Boston, Los Angeles, New York, Chicago, Atlanta, San Francisco, Seattle, Miami, Denver, Dallas]"
+                    },
+                    {
+                        "name": "destinationLocationCode",
+                        "description": "city/airport IATA code to which the traveler is going, e.g. PAR for Paris",
+                        "example": "BKK",
+                        "required": true,
+                        "type": "string",
+                        "values": "[PAR, LAX, BKK, AMS, IST, MEX, DEL, CPT, NRT, RIO]",
+                        "mentions": "[London, Los Angeles, Bangkok, Amsterdam, Istanbul, Mexico City, Delhi, Cape Town, Tokyo, Rio de Janeiro]"
+                    },
+                    {
+                        "name": "departureDate",
+                        "description": "the date on which the traveler will depart from the origin to go to the destination. Dates are specified in the ISO 8601 YYYY-MM-DD format, e.g. 2017-12-25",
+                        "example": "2021-02-01",
+                        "required": true,
+                        "type": "string",
+                        "values": "[2021-01-01, 2022-06-15, 2023-09-30, 2024-04-10, 2025-11-22, 2026-08-05, 2027-03-18, 2028-07-28, 2029-02-14, 2030-10-01]",
+                        "mentions": "[01/01/2021, June 15th, 2022, September 30th, 2023, April 10, 2024, November 22, 2025, August 5th, 2026, March 18th, 2027, July 28th, 2028]"
+                    },
+                    {
+                        "name": "returnDate",
+                        "description": "the date on which the traveler will depart from the destination to return to the origin. If this parameter is not specified, only one-way itineraries are found. If this parameter is specified, only round-trip itineraries are found. Dates are specified in the ISO 8601 YYYY-MM-DD format, e.g. 2018-02-28",
+                        "example": "2018-02-28",
+                        "required": false,
+                        "type": "string",
+                        "values": "[2022-01-01, 2022-03-15, 2022-06-30, 2022-09-25, 2023-04-10, 2023-07-20, 2023-11-11, 2024-05-05, 2024-08-18, 2024-12-31]",
+                        "mentions": "[New Year's Day 2022, March 15th 2022, June 30th 2022, September 25th 2022, April 10th 2023, July 20th 2023, November 11th 2023, May 5th 2024, August 18th 2024, December 31st 2024]"
+                    },
+                    {
+                        "name": "adults",
+                        "description": "the number of adult travelers (age 12 or older on date of departure).",
+                        "example": "1",
+                        "required": true,
+                        "type": "integer",
+                        "values": "[1 adult, 2 adults, 3 adults, 4 adults, 5 adults, 6 adults, 7 adults, 8 adults, 9 adults, 10 adults]",
+                        "mentions": "[1 person, 2 individuals, 3 grown-ups, 4 mature adults, 5 individuals above 18 years old, 6 adults over the age of 18, a group of 7 adults, 8 mature individuals, 9 grown-ups, and a party of 10 adults]"
+                    },
+                    {
+                        "name": "children",
+                        "description": "the number of child travelers (older than age 2 and younger than age 12 on date of departure) who will each have their own separate seat. If specified, this number should be greater than or equal to 0",
+                        "example": "1",
+                        "required": false,
+                        "type": "integer",
+                        "values": "[0 children, no children, one child, two children, three children, four children, five children, six children, seven children, eight children]",
+                        "mentions": "[childless, without kids, child-free, no offspring, no dependents, parentless, zero kids, not having any children, no progeny, devoid of children]"
+                    },
+                    {
+                        "name": "infants",
+                        "description": "the number of infant travelers (whose age is less or equal to 2 on date of departure). Infants travel on the lap of an adult traveler, and thus the number of infants must not exceed the number of adults. If specified, this number should be greater than or equal to 0",
+                        "example": "1",
+                        "required": false,
+                        "type": "integer",
+                        "values": "[0 infants, no infants, one infant, two infants, three infants, four infants]",
+                        "mentions": "[Zero babies, no babies, a single baby, a pair of babies, three little ones, four newborns, no infants present, not a single infant, not even one baby, an absence of infants]"
+                    },
+                    {
+                        "name": "travelClass",
+                        "description": "most of the flight time should be spent in a cabin of this quality or higher. The accepted travel class is economy, premium economy, business or first class. If no travel class is specified, the search considers any travel class",
+                        "example": [
+                            "ECONOMY",
+                            "PREMIUM_ECONOMY",
+                            "BUSINESS",
+                            "FIRST"
+                        ],
+                        "required": false,
+                        "type": "string",
+                        "values": "[economy class, premium economy class, business class, first class, economy, premium economy, business, first, coach class, main cabin, upper class]",
+                        "mentions": "[econ, prem econ, bus class, first cl, econ, prem econ, biz, first, coach, main cabin, upper cl]"
+                    },
+                    {
+                        "name": "includedAirlineCodes",
+                        "description": "This option ensures that the system will only consider these airlines. This can not be cumulated with parameter excludedAirlineCodes.\n\nAirlines are specified as IATA airline codes and are comma-separated, e.g. 6X,7X,8X\n",
+                        "example": [
+                            "6X",
+                            "7X",
+                            "8X"
+                        ],
+                        "required": false,
+                        "type": "string",
+                        "values": "[6X, 7X, 8X, LH, DL, BA, AA, AF, TK, EK]",
+                        "mentions": "[4W, 5Z, 9Y, AC, AZ, CX, QR, SQ, TG, NH]"
+                    },
+                    {
+                        "name": "excludedAirlineCodes",
+                        "description": "This option ensures that the system will ignore these airlines. This can not be cumulated with parameter includedAirlineCodes.\n\nAirlines are specified as [IATA airline codes](http://www.iata.org/publications/Pages/code-search.aspx) and are comma-separated, e.g. 6X,7X,8X\n",
+                        "example": [
+                            "6X",
+                            "7X",
+                            "8X"
+                        ],
+                        "required": false,
+                        "type": "string",
+                        "values": "[6X, 7X, 8X, AA, BA, LH, AF, QR, EK, UA]",
+                        "mentions": "[Delta, KLM, Singapore Airlines, Cathay Pacific, JetBlue, Ryanair, Southwest Airlines, Air Canada, Lufthansa, Turkish Airlines]"
+                    },
+                    {
+                        "name": "nonStop",
+                        "description": "if set to true, the search will find only flights going from the origin to the destination with no stop in between",
+                        "example": [
+                            "True",
+                            "False"
+                        ],
+                        "required": false,
+                        "type": "boolean",
+                        "values": "[true, false, no stops, direct, non-stop, without layover, single leg, uninterrupted, straight flight, continuous]",
+                        "mentions": "[indirect, with layovers, connecting, multi-stop, with transfers, via, with connections, stopover, with layoffs, interrupted]"
+                    },
+                    {
+                        "name": "currencyCode",
+                        "description": "the preferred currency for the flight offers. Currency is specified in the ISO 4217 format, e.g. EUR for Euro",
+                        "example": "EUR",
+                        "required": false,
+                        "type": "string",
+                        "values": "[USD, EUR, GBP, JPY, CAD, AUD, CHF, CNY, INR, BRL]",
+                        "mentions": "[Dollar, Euro, Pound, Yen, Canadian dollar, Australian dollar, Swiss franc, Yuan, Rupee, Real]"
+                    },
+                    {
+                        "name": "maxPrice",
+                        "description": "maximum price per traveler. By default, no limit is applied. If specified, the value should be a positive number with no decimals",
+                        "example": "500",
+                        "required": false,
+                        "type": "integer",
+                        "values": "[100, 200, 500, 1000, 1500, 2000, 3000, 5000, 10000, unlimited]",
+                        "mentions": "[$100, \u00a3200, \u20ac500, \u00a51000, $1500, \u00a32000, \u20ac3000, \u00a55000, $10,000, no limit]"
+                    },
+                    {
+                        "name": "max",
+                        "description": "maximum number of flight offers to return. If specified, the value should be greater than or equal to 1",
+                        "example": "250",
+                        "required": false,
+                        "type": "integer",
+                        "values": "[1, 5, 10, 20, 50, 100, 500, 1000, 2000, unlimited]",
+                        "mentions": "[single, handful, dozen, score, half-century, century, five hundred, grand, two grand, limitless]"
+                    }
+                ]
+            }
+        },
+        "test_utt": [
+            "List of affordable flights from New York to Singapore traveling on 15th July 2023",
+            "What is the cheapest price for flights taking off from Dublin and arriving at Heathrow on May 31st up to 500 euros?",
+            "Book me a flight from Toronto to Barcelona on December 20th for two adults and two children."
+        ],
+        "generated_utt": [
+            {
+                "prompt": "You are an expert in understanding APIs and creating utterances to invoke them. For each given sample sentence, give me ten utterances mentioning different cities, dates and entities when required that can be used to invoke the API. Make them syntactically and lexically to increase diversity and do not mention the API name.",
+                "model": "gpt-3.5-turbo",
+                "utterances": [
+                    "Show me the cheapest flights from Barcelona to Paris on June 1st.",
+                    "Are there any cheap flights available from Madrid to Amsterdam on June 1st?",
+                    "Find the lowest fare flights from Malaga to Paris on June 1st.",
+                    "Show me the lowest fare flights from Madrid to Rome on June 1st.",
+                    "Are there any budget-friendly airlines flying from Madrid to Lisbon on June 1st?",
+                    "Find me the best deals on flights from Bilbao to Paris on June 1st.",
+                    " Can you help me find cheap flights from Madrid to Berlin on June 1st?"
+                ]
+            },
+            {
+                "prompt": "You are an expert in understanding APIs and creating utterances to invoke them. For each description, give me ten utterances mentioning different cities, dates and entities when required that can be used to invoke the API. Make them syntactically and lexically to increase diversity and do not mention the API name.",
+                "model": "gpt-3.5-turbo",
+                "utterances": [
+                    "Find me the cheapest flights from New York to Los Angeles.",
+                    "Get me a list of flight offers from Chicago to Miami.",
+                    "Show me the flight offers from Vancouver to Toronto.",
+                    "Find me the cheapest flights from Rome to Barcelona.",
+                    "What are the available flight offers from Dubai to New Delhi?",
+                    "I want to search for multi-city flights from Sydney to London and then London to New York.",
+                    " Get me a list of one-way combinable fares from Boston to Chicago."
+                ]
+            },
+            {
+                "prompt": "You are an expert in understanding APIs and creating utterances to invoke them. For each description and given sample sentence, give me ten utterances mentioning different cities, dates and entities when required that can be used to invoke the API. Make them syntactically and lexically to increase diversity and do not mention the API name.",
+                "model": "gpt-3.5-turbo",
+                "utterances": [
+                    "What are the cheapest flights from Madrid to Paris on June 1st?",
+                    "Find the lowest priced flights from Madrid to Paris on June 1st.",
+                    "Show me the flights with the lowest prices from Madrid to Paris on June 1st.",
+                    "Can you provide me with the cheapest available flights from Madrid to Paris on June 1st?",
+                    "Find the most budget-friendly flights from Madrid to Paris on June 1st.",
+                    " Give me the flight offers with the lowest fares from Madrid to Paris on June 1st."
+                ]
+            },
+            {
+                "prompt": "Suppose you are an intelligent device such as Alexa, Siri or Google Assistant, which can handle different requests. Given the description of an API that will perform a request, we ask you to provide 10 creative and different utterances that can be solved using this API. We ask you this so that the virtual assistant can understand the many ways a user can express the same request. To increase diversity, change cities, dates and entities whenever is necessary.",
+                "model": "gpt-3.5-turbo",
+                "utterances": [
+                    "Find me the cheapest flight from New York to Los Angeles departing on August 10th.",
+                    "What are the flight options from London to Paris for a round trip in October?",
+                    "Search for flights from New Delhi to Mumbai with a layover in Dubai.",
+                    "Can you find me flights from Houston to New York that offer a free checked bag?",
+                    "I need a flight from Singapore to Bali with a departure date of August 15th and a return date of August 25th.",
+                    " What are the flight options from Bangkok to Tokyo with Thai Airways?"
+                ]
+            },
+            {
+                "prompt": "I am developing a virtual assistant and you are an expert in understanding APIs and creating utterances to invoke them. I will give you some information about the API, such as description and required parameters used to invoke the API and you must create 10 different and creative requests/utterances that can be solved using this API. Remember to include ALL the required parameters and make it as diverse as possible (by changing entities such as cities and dates), so that the assistant can understand the many ways a user can express the same request. Do not include the name of the parameter in the utterances.",
+                "model": "gpt-3.5-turbo",
+                "utterances": [
+                    "Find the cheapest flights from New York City to Los Angeles for two adults departing on October 15th and returning on October 20th.",
+                    "I want to search for one-way flights from London to Paris for a single adult on November 10th.",
+                    "Provide me with a list of flight offers from San Francisco to New York City for two adults and one child, departing on January 5th and returning on January 10th.",
+                    "Can you find flights from Madrid to Barcelona, departing on November 15th and returning on November 20th, with a maximum price of $200 per person?",
+                    "I need to find the cheapest business class flights from Shanghai to New York City for two adults and one infant, departing on October 1st and returning on October 15th.",
+                    "Find one-way flights from Mumbai to Dubai for two adults and two children, departing on December 10th.",
+                    " Search for multi-city flights from Melbourne to Sydney, then Sydney to Brisbane, and finally Brisbane to Cairns, departing on November 1st and returning on November 10th, for two adults and one child."
+                ]
+            }
+        ]
+    }
+}
