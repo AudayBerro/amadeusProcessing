@@ -333,28 +333,7 @@ def display_outlier_bert_score_output(json_data, metric = 0):
     # avoid the 'metadata' item
     json_data = {key: value for key, value in json_data.items() if key != 'metadata'}
 
-    json_data_keys = json_data.keys()
-    json_data_keys = list(json_data_keys)#get a hand on the intent
-    frst_intnt_idx = json_data_keys[0]#just select the first intent
-    prompts_ = json_data[frst_intnt_idx]#get the prompts and their nested data => {'0':{...}, '1':{...}, '2':{...}, '3':{...}, '4':{...}}
-    prmpt_keys = prompts_.keys()#get the key to be able to iterate => dict_keys(['0', '1', '2', '3', '4'])
-    prmpt_keys = list(prmpt_keys)
-    prmpt_0_keys = prmpt_keys[0]#just select the first prompt
-    outliers_scores_items_keys = json_data[frst_intnt_idx][prmpt_0_keys]['outlier scores'].keys()
-    outliers_scores_items_keys = list(outliers_scores_items_keys)
-    outliers_scores_items_0 = outliers_scores_items_keys[0]#just select the first generated utterance/paraphrase
-    # print(json_data[frst_intnt_idx][prmpt_0_keys]['seed_utterances'])
-    outliers_scores_items_0_scores = json_data[frst_intnt_idx][prmpt_0_keys]['outlier scores'][outliers_scores_items_0]#get the precision, recall and F1 scores of the outliers_scores_items_0
-    outliers_metrics_keys = outliers_scores_items_0_scores.keys()
-    outliers_metrics_keys = list(outliers_metrics_keys)
-
-    selected_metric_score = outliers_metrics_keys[metric]# which metric was used to detect outliers
-
-    sys.exit()
-    supported_metrics = 2
-    supported_metrics = 2
-    selected_metric = supported_metrics[metric]
-    selected_metric_score = paraphrase_scores[selected_metric]
+    selected_metric_score = get_selected_metric(json_data,metric)
 
     for intent, intent_data in json_data.items():
         print(intent)
