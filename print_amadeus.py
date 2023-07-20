@@ -352,27 +352,8 @@ def display_outlier_bert_score_output(json_data, metric = 0):
             outlier_paraphrases = data['outlier_paraphrases']#get lsit of outliers paraphrases
             paraphrases = data['outlier scores']#get lsit of all generated paraphrases despite the outliers detection
             for paraphrase, paraphrase_scores in paraphrases.items():
-                if paraphrase in outlier_paraphrases:
-                    print(f"{paraphrase} - outlier - {Precision_Score}: {selected_metric_score}")
-                else:
-                    print(f"{paraphrase} - good - {Precision_Score}: {selected_metric_score}")
-            sys.exit()
-
-        current_prompt[generated_utt_index] = {
-            'seed_utterances': utterances_list.copy(),
-            'len_seed_utterances': len(utterances_list),
-            'paraphrases': paraphrases_list.copy(),
-            'len_paraphrases': len(paraphrases_list),
-        }
-        result[intent] = current_prompt
-        utterances_list.clear()
-        paraphrases_list.clear()
-
-    # # Create the filename with the current time
-    # filename = f"paraphrases-amadeus-dataset-v6.json"
-
-    # # Write JSON string to a file
-    # save_data_as_json(result,filename)
+                outlier_status = "outlier" if paraphrase in outlier_paraphrases else "good"
+                print(f"{paraphrase} - {outlier_status} - {selected_metric_score}: {paraphrase_scores[selected_metric_score]}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load JSON file')
