@@ -1,9 +1,13 @@
 import argparse
 import json
+import sys
+
+from termcolor import colored
 
 """
     This script is an UtilityToola to read and process the amadeus-dataset-v6.json in order to print varuious intersting selected fields. For example print only the prompt or the generated utternaces, etc.
 """
+
 def save_data_as_json(data,filename):
     """
     Converts data to a JSON string and saves it to a file with a dynamic filename based on the current time.
@@ -335,25 +339,46 @@ def display_outlier_bert_score_output(json_data, metric = 0):
 
     selected_metric_score = get_selected_metric(json_data,metric)
 
-    for intent, intent_data in json_data.items():
-        print(intent)
+    with open(f"outlier_bert_score_{selected_metric_score}_output.txt", "w") as f:
+        # Save the current standard output (console)
+        original_stdout = sys.stdout
 
-        prompt_key = intent_data.keys()#a variable used to extract utterances once and for all, since all prompt have the same seed utterances list
-        prompt_key = list(prompt_key)# convert to avoid AttributeError: 'dict_keys' object has no attribute 'list'
-        frst_prmpt_idx = prompt_key[0]#just select the first prompt
+        # Redirect the standard output to the file
+        sys.stdout = f
 
-        utterances = intent_data[frst_prmpt_idx]['seed_utterances']
-        print()
-        print("Seed utterances:")
-        print("\n".join([f"\t{idx+1}. {utr}" for idx, utr in enumerate(utterances)]))#print seed utterances
-        print()
+        print("This folder displays for each intention in the processed dataset, the seed_utetrances, the generated paraphrases with their Bert_score and a token that specifies whether the current paraphrase has been detected as an outlier or is a good paraphrase.")
+
+        for intent, intent_data in json_data.items():
+            print()
+            underlined_text = "\u0332".join(intent)#underline the text
+            print(underlined_text)
+
+            prompt_key = intent_data.keys()#a variable used to extract utterances once and for all, since all prompt have the same seed utterances list
+            prompt_key = list(prompt_key)# convert to avoid AttributeError: 'dict_keys' object has no attribute 'list'
+            frst_prmpt_idx = prompt_key[0]#just select the first prompt
+
+            utterances = intent_data[frst_prmpt_idx]['seed_utterances']
+            print()
+            underlined_text = "\u0332".join("Seed utterances:")#underline the text
+            print(underlined_text)
+            print("\n".join([f"\t{idx+1}. {utr}" for idx, utr in enumerate(utterances)]))#print seed utterances
+            print()
+
+            print()
+            underlined_text = "\u0332".join("Outliers:")#underline the text
+            print(underlined_text)
+            print()
+
+            
+            for prompt, data in intent_data.items():
+                outlier_paraphrases = data['outlier_paraphrases']#get lsit of outliers paraphrases
+                paraphrases = data['outlier scores']#get lsit of all generated paraphrases despite the outliers detection
+                for idx, (paraphrase, paraphrase_scores) in enumerate(paraphrases.items()):
+                    outlier_status = colored('outlier', 'red') if paraphrase in outlier_paraphrases else colored('good', 'green')
+                    print(f"\t{idx+1}. {paraphrase} - {outlier_status} - {selected_metric_score}: {paraphrase_scores[selected_metric_score]}")
         
-        for prompt, data in intent_data.items():
-            outlier_paraphrases = data['outlier_paraphrases']#get lsit of outliers paraphrases
-            paraphrases = data['outlier scores']#get lsit of all generated paraphrases despite the outliers detection
-            for paraphrase, paraphrase_scores in paraphrases.items():
-                outlier_status = "outlier" if paraphrase in outlier_paraphrases else "good"
-                print(f"{paraphrase} - {outlier_status} - {selected_metric_score}: {paraphrase_scores[selected_metric_score]}")
+        # Restore the standard output to the console
+        sys.stdout = original_stdout
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load JSON file')
