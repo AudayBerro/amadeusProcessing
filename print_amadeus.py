@@ -5,7 +5,8 @@ import sys
 from termcolor import colored
 
 """
-    This script is an UtilityToola to read and process the amadeus-dataset-v6.json in order to print varuious intersting selected fields. For example print only the prompt or the generated utternaces, etc.
+    This script serves as a utility tool to read and process the `amadeus-dataset-v6.json` file, enabling the extraction and display of specific fields of interest.
+    For instance, it can print only the prompts, the generated utterances, and more.
 """
 
 def save_data_as_json(data,filename):
